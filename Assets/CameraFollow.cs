@@ -11,6 +11,8 @@ public class CameraFollow : MonoBehaviour
     private float yaw = 0.0f;         // Horizontal rotation angle
     private float pitch = 0.0f;       // Vertical rotation angle
 
+    public float Power = 0f;
+
     void Update()
     {
         // Get mouse input for camera rotation
