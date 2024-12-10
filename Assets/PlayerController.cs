@@ -8,6 +8,13 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     GravityAttractor planet;
     [SerializeField] Transform cameraTransform;
+    [SerializeField] JumpHitbox jumpHitbox;
+
+    float powerLvl = 0f;
+
+    //Faster
+    //Higher jumping
+
 
     private void Start()
     {
@@ -23,9 +30,14 @@ public class PlayerController : MonoBehaviour
         Move();
         Look();
         planet.Attract(transform, rb);
-	if (Input.GetButton("Jump")) {
-	    Jump();
-	}
+	    
+    }
+    private void Update()
+    {
+        if (Input.GetButtonDown("Jump") && jumpHitbox.CanJump == true)
+        {
+            Jump();
+        }
     }
 
     private void Move()
@@ -63,8 +75,8 @@ public class PlayerController : MonoBehaviour
 
     private void Jump() 
     {
-	rb.AddForce(transform.up * jumpForce);
-	Debug.Log("Jumped");
+	    rb.AddForce(transform.up * jumpForce);
+	    Debug.Log("Jumped");
     }
 
 
