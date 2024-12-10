@@ -4,16 +4,18 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float lookSensitivity = 2f;
+    [SerializeField] private float jumpForce = 2f;
     Rigidbody rb;
     GravityAttractor planet;
-    private Transform cameraTransform;
+    [SerializeField] Transform cameraTransform;
 
     private void Start()
     {
         planet = GameObject.FindGameObjectWithTag("Planet").GetComponent<GravityAttractor>();
         rb = GetComponent<Rigidbody>();
-        cameraTransform = Camera.main.transform;
+        //cameraTransform = Camera.main.transform;
         Cursor.lockState = CursorLockMode.Locked;
+    
     }
 
     private void FixedUpdate()
@@ -21,6 +23,9 @@ public class PlayerController : MonoBehaviour
         Move();
         Look();
         planet.Attract(transform, rb);
+	if (Input.GetButton("Jump")) {
+	    Jump();
+	}
     }
 
     private void Move()
@@ -54,6 +59,12 @@ public class PlayerController : MonoBehaviour
         newXRotation = Mathf.Clamp(newXRotation, -90f, 90f);
 
         cameraTransform.localRotation = Quaternion.Euler(newXRotation, 0f, 0f);
+    }
+
+    private void Jump() 
+    {
+	rb.AddForce(transform.up * jumpForce);
+	Debug.Log("Jumped");
     }
 
 
