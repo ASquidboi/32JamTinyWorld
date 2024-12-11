@@ -10,13 +10,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform cameraTransform;
     [SerializeField] JumpHitbox jumpHitbox;
 
-    float powerLvl = 0f;
+
+    public float powerLvl = 0f;
+    
+
 
     public float radius = 5.0F;
     public float power = 10.0F;
 
-    //Faster
-    //Higher jumping
+    //Honk at 5
+    //High jump at 10
+    //Speed at 15
+    //Powerful honk at 25
+    //Fly at like 50 or something
+    
 
 
     private void Start()
