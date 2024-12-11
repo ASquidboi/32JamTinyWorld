@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
 
     public float radius = 5.0F;
     public float power = 10.0F;
+    bool canHonk = false;
+    float honkLvl = 0f;
 
     //Honk at 5
     //High jump at 10
@@ -48,7 +50,7 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
-        if (Input.GetButtonDown("Fire"))
+        if (Input.GetButtonDown("Fire") && canHonk == true)
         {
             Honk();
         }
@@ -98,6 +100,10 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Honk");
         Vector3 explosionPos = transform.position;
         Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
+        if (honkLvl == 1)
+        {
+            
+        }
         foreach (Collider hit in colliders)
         {
             Rigidbody rb = hit.GetComponent<Rigidbody>();
@@ -108,6 +114,24 @@ public class PlayerController : MonoBehaviour
                     rb.AddExplosionForce(power, explosionPos, radius, 3.0F);
                     Debug.Log("Honked");
                 }
+            }
+        }
+    }
+
+    public void ConsumeItem(float val)
+    {
+        powerLvl += val;
+        if (powerLvl >= 5)
+        {
+            canHonk = true;
+        }
+        if (powerLvl >= 25)
+        {
+            honkLvl = 1;
+            if (honkLvl == 0)
+            {
+                power = power * 2;
+                radius = radius * 2;
             }
         }
     }
