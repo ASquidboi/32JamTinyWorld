@@ -13,6 +13,10 @@ public class CameraFollow : MonoBehaviour
 
     public float Power = 0f;
 
+    public float explosionRadius = 5f;
+    public float explosionForce = 700f;
+    public Vector3 explosionOffset = Vector3.zero;
+
     void Update()
     {
         // Get mouse input for camera rotation
@@ -34,5 +38,33 @@ public class CameraFollow : MonoBehaviour
         Cursor.visible = false;
 
         //transform.position = player.transform.position + offset;
+    }
+    
+
+    // Call this method to trigger the explosion
+    public void Explode()
+    {
+        Vector3 explosionPosition = transform.position + explosionOffset;
+
+        // Find all colliders within the explosion radius
+        Collider[] colliders = Physics.OverlapSphere(explosionPosition, explosionRadius);
+
+        foreach (Collider nearbyObject in colliders)
+        {
+            Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
+
+            if (rb != null)
+            {
+                // Apply explosion force
+                rb.AddExplosionForce(explosionForce, explosionPosition, explosionRadius);
+            }
+        }
+    }
+
+    // Optional: Visualize the explosion radius in the editor
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + explosionOffset, explosionRadius);
     }
 }
