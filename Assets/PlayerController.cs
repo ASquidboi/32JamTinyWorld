@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
 
     float powerLvl = 0f;
 
+    public float radius = 5.0F;
+    public float power = 10.0F;
+
     //Faster
     //Higher jumping
 
@@ -37,6 +40,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && jumpHitbox.CanJump == true)
         {
             Jump();
+        }
+        if (Input.GetButtonDown("Fire"))
+        {
+            Honk();
         }
     }
 
@@ -79,5 +86,23 @@ public class PlayerController : MonoBehaviour
 	    Debug.Log("Jumped");
     }
 
+    void Honk()
+    {
+        Debug.Log("Honk");
+        Vector3 explosionPos = transform.position;
+        Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
+        foreach (Collider hit in colliders)
+        {
+            Rigidbody rb = hit.GetComponent<Rigidbody>();
+            if (hit.tag != "Player")
+            {
+                if (rb != null)
+                {
+                    rb.AddExplosionForce(power, explosionPos, radius, 3.0F);
+                    Debug.Log("Honked");
+                }
+            }
+        }
+    }
 
 }

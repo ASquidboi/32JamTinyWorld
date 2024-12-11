@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - planet
   - Planet
+  - New tag
   layers:
   - Default
   - TransparentFX
